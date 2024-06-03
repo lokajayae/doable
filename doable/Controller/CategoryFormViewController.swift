@@ -46,7 +46,7 @@ class CategoryFormViewController: UIViewController {
     @IBAction func onClickAddCategory(_ sender: UIButton) {
         let newCategory = Category(context: self.context)
         newCategory.name = nameTextField.text!
-        newCategory.emojiLogo = emojiButton.currentTitle!
+        newCategory.emojiLogo = emojiButton.attributedTitle(for: .normal)?.string
         self.saveData()
         delegate?.formModalControllerDidDismiss(self)
         self.dismiss(animated: true)
@@ -67,7 +67,10 @@ class CategoryFormViewController: UIViewController {
 // MARK: - EmojiPicker Delegate
 extension CategoryFormViewController: EmojiPickerDelegate {
     func didGetEmoji(emoji: String) {
-        self.emojiButton.setTitle(emoji, for: .normal)
+        let attributes: [NSAttributedString.Key: Any] = [
+                    .font: UIFont.systemFont(ofSize: 100)]
+        let attributedTitle = NSAttributedString(string: emoji, attributes: nil)
+        self.emojiButton.setAttributedTitle(attributedTitle, for: .normal)
     }
 }
 
